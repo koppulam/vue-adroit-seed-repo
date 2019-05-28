@@ -1,0 +1,12 @@
+// ****************************************
+// header
+// ****************************************
+
+.header {
+	&__content {
+		text-align: center;
+		padding: 20px;
+		font-size: 24px;
+		border-bottom: 1px solid $black; 
+	}
+}

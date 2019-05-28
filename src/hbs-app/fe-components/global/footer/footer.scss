@@ -1,0 +1,12 @@
+// ****************************************
+// footer
+// ****************************************
+
+.footer {
+	&__content {
+		text-align: center;
+		padding: 20px;
+		font-size: 24px;
+		border-top: 1px solid $black; 
+	}
+}

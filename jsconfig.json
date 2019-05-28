@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "es2017",
+      "allowSyntheticDefaultImports": false,
+      "baseUrl": "./",
+      "paths": {
+        "components/*": ["src/vue-app/components/*"],
+        "actions/*": ["src/vue-app/actions/*"],
+        "constants/*": ["src/vue-app/constants/*"],
+        "config/*": ["src/vue-app/config/*"],
+        "services/*": ["src/vue-app/services/*"],
+        "types/*": ["src/vue-app/types/*"]
+      }
+    },
+    "exclude": ["node_modules", "dist"]
+  }
