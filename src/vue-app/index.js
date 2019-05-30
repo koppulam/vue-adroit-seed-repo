@@ -1,8 +1,8 @@
 import Vue from 'vue'
-import App from './instances/App.vue'
 import ProductPreview from './instances/ProductPreview.vue'
 import ProductQuatity from './instances/Quantity.vue'
 import AddToCart from './instances/AddToCart.vue'
+import Home from './instances/Home.vue'
 
 Vue.config.productionTip = false
 
@@ -11,8 +11,8 @@ new Vue({
 }).$mount('#productPreview');
 
 new Vue({
-  render: h => h(App),
-}).$mount('#app2');
+  render: h => h(Home),
+}).$mount('#home');
 
 
 new Vue({

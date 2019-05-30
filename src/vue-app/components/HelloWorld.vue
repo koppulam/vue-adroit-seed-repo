@@ -27,6 +27,7 @@
       <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
     </ul>
+    <button class="btn"> <span> test</span></button>
   </div>
 </template>
 
@@ -41,6 +42,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+@import './css/global.css';
 h3 {
   margin: 40px 0 0;
 }
@@ -54,5 +56,8 @@ li {
 }
 a {
   color: #42b983;
+}
+.btn {
+  padding: 0;
 }
 </style>
