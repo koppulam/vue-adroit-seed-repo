@@ -1,12 +1,17 @@
+/* eslint-disable no-console */
 /* eslint-disable global-require */
 const { resolve } = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('mini-css-extract-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const PROJECT_CONFIG = require('./project-config.js');
 
 const smp = new SpeedMeasurePlugin();
 
 module.exports = (env = {}) => {
+    // eslint-disable-next-line no-console
     console.log('>>>> env  : ', env);
 
     const IS_PRODUCTION_MODE = !env.dev;
@@ -49,6 +54,7 @@ module.exports = (env = {}) => {
         APP_PUBLIC_PATH,
         extractCSS,
         IS_FAST_MODE
+
         // copyFiles
     });
 
@@ -63,21 +69,48 @@ module.exports = (env = {}) => {
     const config = smp.wrap({
         // context: resolve(PROJECT_CONFIG.SOURCE_ROOT_FOLDER),
         entry: ENTRIES,
+        mode: env.prod ? 'production' : 'development',
         watchOptions: {
-            ignored: env.fast ? [`${PROJECT_CONFIG.SOURCE_ROOT_FOLDER}/**/*.scss`, 'node_modules'] : []
+            ignored: env.fast
+                ? [`${PROJECT_CONFIG.SOURCE_ROOT_FOLDER}/**/*.scss`, 'node_modules']
+                : []
         },
         output: {
             path: resolve(PROJECT_CONFIG.WEB_ROOT),
             filename: `${PROJECT_CONFIG.OUTPUT_JS_FOLDER}/bundle.[name].js`,
             chunkFilename: `${PROJECT_CONFIG.OUTPUT_JS_FOLDER}/bundle.[name].[hash:8].js`,
-            publicPath: IS_PRODUCTION_MODE && !IS_GLOBAL_COMPS ? PROJECT_CONFIG.PUBLIC_AEM_SRC : '/',
+            publicPath:
+                IS_PRODUCTION_MODE && !IS_GLOBAL_COMPS
+                    ? PROJECT_CONFIG.PUBLIC_APP_SRC
+                    : '/',
             pathinfo: !IS_PRODUCTION_MODE
         },
-        devtool: !IS_PRODUCTION_MODE ? 'cheap-module-source-map' : false,
+        devtool: 'cheap-module-source-map',
         module: {
             rules: RULES
         },
         plugins: PLUGINS,
+        optimization: {
+            minimizer: IS_PRODUCTION_MODE
+                ? [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})]
+                : [],
+            splitChunks: {
+                cacheGroups: {
+                    styles: {
+                        test: /\.s?css$/,
+                        chunks: 'all',
+                        minChunks: 1,
+                        reuseExistingChunk: true,
+                        enforce: true
+                    }
+                    // ,
+                    // vendor: {
+                    //     name: "vendor",
+                    //     chunks: "all"
+                    // }
+                }
+            }
+        },
         resolve: {
             alias: {
                 lib: resolve(PROJECT_CONFIG.JS_LIB),
@@ -86,17 +119,9 @@ module.exports = (env = {}) => {
                 stylesheets: resolve(PROJECT_CONFIG.STYLESHEETS),
                 components: resolve(__dirname, 'src', 'react-app', 'components'),
                 constants: resolve(__dirname, 'src', 'react-app', 'constants'),
-                actions: resolve(__dirname, 'src', 'react-app', 'actions'),
-                config: resolve(__dirname, 'src', 'react-app', 'config'),
-                services: resolve(__dirname, 'src', 'react-app', 'services'),
-                types: resolve(__dirname, 'src', 'react-app', 'types'),
-                'react-app': resolve(__dirname, 'src', 'react-app'),
-                'react-slick': resolve(__dirname, 'src', 'lib/vendor/react-slick.min.js'),
-                'react-lottie': resolve(__dirname, 'src', 'lib/vendor/react-lottie.js'),
-                'react-lazyload': resolve(__dirname, 'src', 'lib/vendor/react-lazyload.js'),
-                'react-contexify': resolve(__dirname, 'src', 'lib/vendor/react-contexify.js')
+                actions: resolve(__dirname, 'src', 'react-app', 'actions')
             },
-            extensions: ['.js', '.jsx', '.scss']
+            extensions: ['.js', '.scss']
         },
         stats: {
             children: false

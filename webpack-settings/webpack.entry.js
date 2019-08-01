@@ -19,12 +19,10 @@ module.exports = function getEntriesConfig(options) {
         'babel-polyfill',
         'lib/component-register.js',
         'lib/utils/feature-detection.js',
-        'lib/utils/create-modal.js',
         'lib/jquery.sticky-navigation.js',
 
         // Vendor Libraries
         'lib/vendor/material-inputs.js',
-        'lib/vendor/niceSelect.min.js',
 
         // vue
         'vue',
