@@ -1,6 +1,6 @@
 /* eslint-disable global-require */
 const { resolve } = require('path');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const ExtractTextPlugin = require('mini-css-extract-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const PROJECT_CONFIG = require('./project-config.js');
 
@@ -62,6 +62,7 @@ module.exports = (env = {}) => {
 
     const config = smp.wrap({
         // context: resolve(PROJECT_CONFIG.SOURCE_ROOT_FOLDER),
+        mode: env.prod ? 'production' : 'development',
         entry: ENTRIES,
         watchOptions: {
             ignored: env.fast ? [`${PROJECT_CONFIG.SOURCE_ROOT_FOLDER}/**/*.scss`, 'node_modules'] : []
