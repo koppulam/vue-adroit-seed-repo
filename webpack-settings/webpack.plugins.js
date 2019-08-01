@@ -57,10 +57,6 @@ module.exports = function getPlugins(options) {
             }
         ]),
 
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor',
-            minChunks: Infinity
-        }),
         new assembleWebpack.AttachedPlugin({
             baseLayout: [`${HANDLEBARS_DIR}/layouts/*.hbs`],
             basePages: [`${HANDLEBARS_DIR}/pages/**/*.hbs`],

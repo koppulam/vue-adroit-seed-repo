@@ -1,6 +1,6 @@
-const PROJECT_CONFIG = require('../project-config.js');
 const { resolve } = require('path');
 const fs = require('fs');
+const PROJECT_CONFIG = require('../project-config.js');
 
 module.exports = function getDevServerConfig(options) {
     const HOST_NAME = PROJECT_CONFIG.DEV_SERVER_HOST;
@@ -12,6 +12,7 @@ module.exports = function getDevServerConfig(options) {
         port: PORT,
         compress: true,
         disableHostCheck: true,
+        writeToDisk: true,
         https: {
             spdy: {
                 protocols: ['http/1.1']
@@ -30,6 +31,7 @@ module.exports = function getDevServerConfig(options) {
             children: false
         },
         open: true,
+
         // inline: true,
         historyApiFallback: {
             index: './index.html'
@@ -66,6 +68,7 @@ module.exports = function getDevServerConfig(options) {
                 // console.log('>>> req.baseUrl : ', req.baseUrl);
                 console.log('>>> req.path : ', req.path);
                 console.log('>>> req.method : ', req.method);
+
                 // console.log('>>>>>> req: ', req);
 
                 const requestedPath = req.path;
@@ -83,7 +86,7 @@ module.exports = function getDevServerConfig(options) {
                     const jsonResponse = JSON.parse(
                         fs.readFileSync(`${mockPath}${derivedMockPath}.json`, 'utf8')
                     );
-    
+
                     res.json(jsonResponse);
                 } catch (error) {
                     res.statusCode = 500;

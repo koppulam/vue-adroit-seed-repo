@@ -1,5 +1,7 @@
 const path = require('path');
 
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = function getRules(options) {
     let rules;
 
@@ -38,36 +40,41 @@ module.exports = function getRules(options) {
             // SCSS-CSS extract to seperate file
             {
                 test: /\.(css|scss)$/,
-                use: options.extractCSS.extract({
-                    fallback: 'style-loader',
-                    // resolve-url-loader may be chained before sass-loader if necessary
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                // If you are having trouble with urls not resolving add this setting.
-                                // See https://github.com/webpack-contrib/css-loader#url
-                                // url: false,
-                                minimize: false,
-                                sourceMap: false
-                            }
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                sourceMap: true
-                            }
-                        },
-                        {
-                            loader: 'sass-loader',
-                            options: {
-                                sourceMap: true,
-                                data: "@import '~stylesheets/_imports';@import '~stylesheets/_keyframes';"
-                            }
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // only enable hot in development
+                            hmr: process.env.NODE_ENV === 'development',
+
+                            // if hmr does not work, this is a forceful method.
+                            reloadAll: true
                         }
-                    ]
-                    // publicPath: `/${options.APP_PUBLIC_PATH}/`
-                })
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            // If you are having trouble with urls not resolving add this setting.
+                            // See https://github.com/webpack-contrib/css-loader#url
+                            // url: false,
+                            minimize: false,
+                            sourceMap: false
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: true,
+                            data: "@import '~stylesheets/_imports';@import '~stylesheets/_keyframes';"
+                        }
+                    }
+                ]
             }
         ];
     } else {
@@ -106,50 +113,55 @@ module.exports = function getRules(options) {
             {
                 test: /\.css$/,
                 use: [
-                'vue-style-loader'
+                    'vue-style-loader'
                 ]
             },
 
             // SCSS-CSS extract to seperate file
             {
                 test: /\.(css|scss)$/,
-                use: options.extractCSS.extract({
-                    fallback: 'style-loader',
-                    // resolve-url-loader may be chained before sass-loader if necessary
-                    use: [
-                        {
-                            loader: 'css-loader',
-                            options: {
-                                // If you are having trouble with urls not resolving add this setting.
-                                // See https://github.com/webpack-contrib/css-loader#url
-                                // url: false,
-                                minimize: false,
-                                sourceMap: false
-                            }
-                        },
-                        {
-                            loader: 'postcss-loader',
-                            options: {
-                                sourceMap: true
-                            }
-                        },
-                        {
-                            loader: path.resolve(__dirname, '../src/lib/vendor/namespace-css-module-loader.js'),
-                            options: {
-                                id: 'root',
-                                rootClass: 'aem'
-                            }
-                        },
-                        {
-                            loader: 'sass-loader',
-                            options: {
-                                sourceMap: true,
-                                data: "@import '~stylesheets/globals';@import '~stylesheets/_keyframes';"
-                            }
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            // only enable hot in development
+                            hmr: process.env.NODE_ENV === 'development',
+
+                            // if hmr does not work, this is a forceful method.
+                            reloadAll: true
                         }
-                    ]
-                    // publicPath: `/${options.APP_PUBLIC_PATH}/`
-                })
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            // If you are having trouble with urls not resolving add this setting.
+                            // See https://github.com/webpack-contrib/css-loader#url
+                            // url: false,
+                            minimize: false,
+                            sourceMap: false
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: true
+                        }
+                    },
+                    {
+                        loader: path.resolve(__dirname, '../src/lib/vendor/namespace-css-module-loader.js'),
+                        options: {
+                            id: 'root',
+                            rootClass: 'aem'
+                        }
+                    },
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sourceMap: true,
+                            data: "@import '~stylesheets/globals';@import '~stylesheets/_keyframes';"
+                        }
+                    }
+                ]
             }
         ];
     }
