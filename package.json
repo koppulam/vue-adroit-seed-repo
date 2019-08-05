@@ -1,7 +1,7 @@
 {
     "name": "General-code-repo",
     "version": "1.0.0",
-    "description": "Starter Kit with HBS, Assemble, Webpack ",
+    "description": "Starter Kit with HBS, Assemble, Webpack 4, Vue",
     "scripts": {
         "clean": "rimraf www-root/",
         "lint": "eslint --ext .js --ext .jsx src/",
@@ -10,11 +10,9 @@
         "build:global-comps": "node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack.js --env.dev --env.globalComps --env.globalCompsCSS && gulp copyGlobalBundledCssFiles && gulp copyGlobalBundledJsFiles && gulp copyGlobalVendorJsFiles",
         "build:Ada": "npm run build && gulp ",
         "build:prod": "webpack -p --env.prod && gulp copyFiles && gulp copyChunkFiles",
-        "build:prod-global-comps": "node --max_old_space_size=8192 ./node_modules/webpack/bin/webpack.js -p --env.prod --env.globalComps --env.globalCompsCSS && && gulp copyGlobalBundledCssFiles && gulp copyGlobalBundledJsFiles && gulp copyGlobalVendorJsFiles",
         "build:analyse": "npm run build -- --env.analyse",
         "build:watch": "webpack --watch --env.dev",
         "start": "node --max_old_space_size=8192 ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --env.dev",
-        "start:fast": "node --max_old_space_size=8192 ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --progress --env.dev --env.fast",
         "sass": "gulp sass && gulp sass:watch",
         "docgen": "node_modules/.bin/jsdoc --configure .jsdoc.json --verbose"
     },

@@ -6,13 +6,15 @@ description: Genereal vue framework
 sortOrder: 0
 ---
 <div class="wrapper pdp-page">
+
     <div class="pdp">
-        <div id="productPreview"></div>
+        <productPreview></productPreview>
         <div class="pdp-details">
             <h1>Product name</h1>
             <strong>Product description </strong>
-            <p>As experts in all matters of the heart, ___ is at your service from start to finish. We’re pleased to assist you every step of the way, beginning with the perfect engagement ring.</p>
-            <br/>
+            <p>As experts in all matters of the heart, ___ is at your service from start to finish. We’re pleased to
+                assist you every step of the way, beginning with the perfect engagement ring.</p>
+            <br />
             <strong>Specifications</strong>
             <ul>
                 <li>The burn time of the candle is between 60 and 70 hours</li>
@@ -20,8 +22,10 @@ sortOrder: 0
                 <li>3.7\" high</li>
                 <li>Net weight 9.52 ounces/270 grams</li>
             </ul>
-            <div id="quantity"></div>
-            <div id="addtocart"></div>
+            <quantity maxquantity="5" someparam="testing"></quantity>
+            <addtocart></addtocart>
+
+            <quantity maxquantity="10" someparam="testing dupiccate quantity"></quantity>
         </div>
     </div>
 </div>
